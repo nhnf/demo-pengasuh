@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+    <title>Track Record Santri - Demo Pengasuh An-Nur II</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: { extend: { fontFamily: { sans: ['DM Sans', 'sans-serif'] }, colors: { primary: '#4318FF', secondary: '#A3AED0', dark: '#111C44', light: '#F4F7FE' } } }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer base { body { @apply bg-[#F4F7FE] font-sans text-[#2B3674] antialiased pb-20 md:pb-0; } }
+        @layer components {
+            .card { @apply bg-white rounded-[20px] border-none shadow-[0_20px_27px_0_rgba(0,0,0,0.05)] p-4 md:p-6 !important; }
+            .sidebar-menu li { @apply mb-1; }
+            .sidebar-menu li a { @apply flex items-center px-6 py-3 text-[#A3AED0] hover:text-white font-medium transition-colors duration-200 rounded-r-full mr-4; text-decoration: none !important; }
+            .sidebar-menu li a:hover { @apply bg-white/10; }
+            .sidebar-menu li a i { @apply mr-4 text-xl w-6 text-center; }
+            .sidebar-menu li.active > a { @apply text-white bg-[#4318FF] shadow-md; }
+            
+            /* Bottom Nav Mobile */
+            .bottom-nav-item { @apply flex flex-col items-center justify-center w-full h-full text-[#A3AED0] transition-colors; }
+            .bottom-nav-item.active { @apply text-[#4318FF] font-bold; }
+            .bottom-nav-item i { @apply text-xl mb-1; }
+            .bottom-nav-item span { @apply text-[10px]; }
+
+            .hide-scrollbar::-webkit-scrollbar { display: none; }
+            .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        }
+    </style>
+</head>
+<body class="font-sans bg-[#F4F7FE] text-[#2B3674] h-screen overflow-hidden flex flex-col md:flex-row">
+
+    <!-- Desktop Sidebar -->
+    <aside class="hidden md:flex w-72 bg-[#111C44] flex-col z-50 shadow-xl fixed inset-y-0 left-0">
+        <div class="h-20 flex items-center justify-between px-8 border-b border-white/5">
+            <span class="text-white text-2xl font-bold tracking-wide">SuperApps<br>An-Nur II</span>
+        </div>
+        <nav class="flex-1 overflow-y-auto py-4 pl-4">
+            <ul class="sidebar-menu list-none p-0 m-0">
+                <li><a href="index.html"><i class="fa fa-home"></i><span>Dashboard</span></a></li>
+                <li><a href="absensi.html"><i class="fa fa-clipboard-list"></i><span>Rekap Absensi</span></a></li>
+                <li><a href="pembayaran.html"><i class="fa fa-money-bill-wave"></i><span>Pembayaran</span></a></li>
+                <li><a href="perizinan.html"><i class="fa fa-hand-paper"></i><span>Perizinan</span></a></li>
+                <li class="active"><a href="track-record.html"><i class="fa fa-user-clock"></i><span>Track Record Santri</span></a></li>
+            </ul>
+            <div class="mt-6 mx-4 px-4 py-3 bg-amber-500/20 rounded-xl border border-amber-400/30">
+                <p class="text-amber-300 text-xs font-bold flex items-center gap-2"><i class="fa fa-flask"></i> MODE DEMO</p>
+            </div>
+        </nav>
+    </aside>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 h-16 z-50 flex justify-around items-center px-2 pb-safe">
+        <a href="index.html" class="bottom-nav-item">
+            <i class="fa fa-home"></i><span>Utama</span>
+        </a>
+        <a href="absensi.html" class="bottom-nav-item">
+            <i class="fa fa-clipboard-list"></i><span>Absen</span>
+        </a>
+        <a href="pembayaran.html" class="bottom-nav-item">
+            <i class="fa fa-money-bill-wave"></i><span>Bayar</span>
+        </a>
+        <a href="perizinan.html" class="bottom-nav-item">
+            <i class="fa fa-hand-paper"></i><span>Izin</span>
+        </a>
+        <a href="track-record.html" class="bottom-nav-item active">
+            <i class="fa fa-user-clock"></i><span>Profil</span>
+        </a>
+    </nav>
+
+    <main class="flex-1 flex flex-col h-screen overflow-hidden md:ml-72 relative">
+        <header class="h-16 md:h-20 bg-white/50 backdrop-blur-xl flex items-center justify-between px-4 md:px-8 sticky top-0 z-40 border-b border-gray-100/50">
+            <div class="flex items-center w-full md:w-auto">
+                <div class="md:hidden flex items-center gap-2 mr-3">
+                    <div class="w-8 h-8 bg-[#111C44] rounded-lg flex items-center justify-center text-white font-bold text-xs">AN</div>
+                </div>
+                <h1 class="text-sm md:text-xl font-bold text-[#1B2559]">Profil & Track Record</h1>
+            </div>
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-[#4318FF]/10 flex items-center justify-center text-[#4318FF]">
+                    <i class="fa fa-user text-sm md:text-base"></i>
+                </div>
+            </div>
+        </header>
+
+        <div class="flex-1 overflow-y-auto p-4 md:p-8 hide-scrollbar">
+            
+            <!-- Filter Tanggal Global -->
+            <div class="card mb-4 p-3 md:p-4 relative z-30">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 rounded-lg bg-[#4318FF]/10 flex items-center justify-center"><i class="fa fa-calendar-alt text-[#4318FF] text-sm"></i></div>
+                        <h3 class="font-bold text-sm text-[#1B2559]">Periode Rekapan</h3>
+                    </div>
+                    <div class="flex flex-col md:flex-row gap-2 items-center">
+                        <select id="rentangTanggal" onchange="toggleCustomDate();" class="w-full md:w-auto bg-[#F4F7FE] border-none text-gray-600 text-sm rounded-xl h-10 px-4 focus:ring-2 focus:ring-[#4318FF] focus:outline-none">
+                            <option value="hari_ini">Hari Ini</option>
+                            <option value="minggu_ini">Minggu Ini</option>
+                            <option value="bulan_ini" selected>Bulan Ini</option>
+                            <option value="tahun_ini">Tahun Ini</option>
+                            <option value="custom">Custom Tanggal</option>
+                        </select>
+                        <div id="customDateContainer" class="hidden items-center gap-2 w-full md:w-auto">
+                            <input type="date" id="startDate" class="flex-1 md:w-auto bg-[#F4F7FE] border-none text-gray-600 text-sm rounded-xl h-10 px-3 focus:ring-2 focus:ring-[#4318FF] focus:outline-none">
+                            <span class="text-gray-400 text-xs">-</span>
+                            <input type="date" id="endDate" class="flex-1 md:w-auto bg-[#F4F7FE] border-none text-gray-600 text-sm rounded-xl h-10 px-3 focus:ring-2 focus:ring-[#4318FF] focus:outline-none">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search -->
+            <div class="relative z-20 mb-6">
+                <div class="flex gap-2">
+                    <div class="flex-1 relative">
+                        <i class="fa fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                        <input type="text" id="searchSantri" placeholder="Cari santri..." onkeyup="searchTrackRecord()" class="w-full bg-white border border-gray-100 text-gray-600 text-sm rounded-xl h-12 pl-10 pr-4 focus:ring-2 focus:ring-[#4318FF] focus:outline-none shadow-sm">
+                    </div>
+                </div>
+                <!-- Dropdown Hasil Pencarian -->
+                <div id="searchResults" class="hidden absolute top-full left-0 right-0 mt-2 bg-white border border-gray-100 rounded-xl max-h-60 overflow-y-auto shadow-xl"></div>
+            </div>
+
+            <!-- Profile Section (Hidden initially) -->
+            <div id="profileSection" class="hidden space-y-4 md:space-y-6">
+                
+                <!-- Identitas & Ringkasan -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+                    <!-- Kartu Identitas -->
+                    <div class="card md:col-span-1">
+                        <div class="flex items-center gap-4 border-b border-gray-100 pb-4">
+                            <div class="w-16 h-16 md:w-24 md:h-24 rounded-full bg-[#4318FF]/10 flex items-center justify-center text-[#4318FF] text-2xl md:text-3xl shrink-0">
+                                <i class="fa fa-user-graduate"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg md:text-xl font-bold text-[#1B2559]" id="profNama">Nama Santri</h3>
+                                <p class="text-[#A3AED0] text-xs md:text-sm" id="profNis">NIS: 12345678</p>
+                                <span class="mt-1 inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-green-100 text-green-600" id="profStatus">Aktif</span>
+                            </div>
+                        </div>
+                        <div class="pt-4 space-y-2">
+                            <div class="flex justify-between items-center bg-gray-50 p-2 rounded-lg">
+                                <span class="text-[10px] text-[#A3AED0]">Kamar</span>
+                                <span class="text-xs font-bold text-[#1B2559]" id="profKamar">-</span>
+                            </div>
+                            <div class="flex justify-between items-center bg-gray-50 p-2 rounded-lg">
+                                <span class="text-[10px] text-[#A3AED0]">Kelas</span>
+                                <span class="text-xs font-bold text-[#1B2559]" id="profKelas">-</span>
+                            </div>
+                            <div class="flex justify-between items-center bg-gray-50 p-2 rounded-lg">
+                                <span class="text-[10px] text-[#A3AED0]">Wali</span>
+                                <span class="text-xs font-bold text-[#1B2559]" id="profWali">-</span>
+                            </div>
+                            <div class="flex justify-between items-center bg-gray-50 p-2 rounded-lg">
+                                <span class="text-[10px] text-[#A3AED0]">Kepala Kamar</span>
+                                <span class="text-xs font-bold text-[#1B2559]" id="profKepalaKamar">-</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Statistik Grid -->
+                    <div class="card md:col-span-2">
+                        <h3 class="font-bold text-sm md:text-lg text-[#1B2559] mb-3">Ringkasan Track Record</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4 mb-4">
+                            <div class="bg-red-50 p-3 rounded-xl text-center border border-red-100">
+                                <p class="text-xl md:text-2xl font-bold text-red-600" id="statPelanggaran">0</p>
+                                <p class="text-[9px] md:text-xs text-[#A3AED0] mt-1 font-bold uppercase">Pelanggaran</p>
+                            </div>
+                            <div class="bg-green-50 p-3 rounded-xl text-center border border-green-100">
+                                <p class="text-xl md:text-2xl font-bold text-green-600" id="statPrestasi">0</p>
+                                <p class="text-[9px] md:text-xs text-[#A3AED0] mt-1 font-bold uppercase">Prestasi</p>
+                            </div>
+                            <div class="bg-yellow-50 p-3 rounded-xl text-center border border-yellow-100">
+                                <p class="text-xl md:text-2xl font-bold text-yellow-600" id="statAlfa">0</p>
+                                <p class="text-[9px] md:text-xs text-[#A3AED0] mt-1 font-bold uppercase">Total Alfa</p>
+                            </div>
+                            <div class="bg-blue-50 p-3 rounded-xl text-center border border-blue-100">
+                                <p class="text-xl md:text-2xl font-bold text-blue-600" id="statPoin">100</p>
+                                <p class="text-[9px] md:text-xs text-[#A3AED0] mt-1 font-bold uppercase">Sisa Poin</p>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-2">
+                            <div class="flex justify-between items-end mb-1">
+                                <h4 class="font-bold text-[10px] md:text-sm text-[#1B2559]">Kehadiran</h4>
+                                <p class="text-[10px] md:text-xs font-bold text-green-500" id="txtKehadiran">85%</p>
+                            </div>
+                            <div class="w-full bg-gray-100 rounded-full h-2">
+                                <div class="bg-green-500 h-2 rounded-full" id="barKehadiran" style="width: 85%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Riwayat Detail -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                    <!-- Pelanggaran -->
+                    <div class="card bg-red-50/30">
+                        <h3 class="font-bold text-sm md:text-lg text-[#1B2559] mb-3 flex items-center justify-between">
+                            Pelanggaran
+                            <span class="text-[10px] bg-red-100 text-red-600 px-2 py-0.5 rounded font-bold uppercase">Poin (-)</span>
+                        </h3>
+                        <div class="space-y-2" id="listPelanggaran"></div>
+                    </div>
+
+                    <!-- Prestasi -->
+                    <div class="card bg-green-50/30">
+                        <h3 class="font-bold text-sm md:text-lg text-[#1B2559] mb-3 flex items-center justify-between">
+                            Prestasi / Kebaikan
+                            <span class="text-[10px] bg-green-100 text-green-600 px-2 py-0.5 rounded font-bold uppercase">Poin (+)</span>
+                        </h3>
+                        <div class="space-y-2" id="listPrestasi"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="card text-center py-12 md:py-24 mt-4">
+                <div class="w-16 h-16 md:w-20 md:h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4 text-gray-300 text-3xl md:text-4xl">
+                    <i class="fa fa-search"></i>
+                </div>
+                <h3 class="text-sm md:text-lg font-bold text-[#1B2559] mb-1">Cari Profil Santri</h3>
+                <p class="text-xs md:text-sm text-[#A3AED0]">Ketik nama untuk melihat track record detail.</p>
+                
+                <div class="mt-6 inline-flex flex-col gap-2 w-full max-w-xs text-left text-xs bg-blue-50 text-blue-700 p-3 rounded-lg border border-blue-100">
+                    <p class="font-bold"><i class="fa fa-lightbulb text-yellow-500 mr-1"></i> Coba cari nama:</p>
+                    <p class="cursor-pointer hover:underline" onclick="document.getElementById('searchSantri').value='Abiyyu'; searchTrackRecord();">"Abiyyu"</p>
+                    <p class="cursor-pointer hover:underline" onclick="document.getElementById('searchSantri').value='Hafidz'; searchTrackRecord();">"Hafidz"</p>
+                    <p class="cursor-pointer hover:underline" onclick="document.getElementById('searchSantri').value='Rafa'; searchTrackRecord();">"Rafa"</p>
+                </div>
+            </div>
+
+            <div class="h-6 md:h-0"></div>
+        </div>
+    </main>
+
+    <script>
+        const santriDB = [
+            {
+                nis: '24010307', nama: 'ABIYYU ZAHY AKIRA FAWWAAZ', kamar: '2 SMP A', kepala_kamar: 'Ust. Zaenal Fanani', kelas: '8 / SMP', tahun: '2024', wali: 'Bpk. Yudi Harianto',
+                stats: { pelanggaran: 1, prestasi: 1, alfa: 2, poin: 105, kehadiran: 95 },
+                pelanggaran: [
+                    { tgl: '12/03/2026', desc: 'Terlambat masuk kelas diniyah', poin: -5 }
+                ],
+                prestasi: [
+                    { tgl: '02/02/2026', desc: 'Juara 2 Lomba Kaligrafi Tingkat SMP', poin: +10 }
+                ]
+            },
+            {
+                nis: '24010363', nama: 'AJI MAHA SYEFA', kamar: '2 SMP A', kepala_kamar: 'Ust. Zaenal Fanani', kelas: '8 / SMP', tahun: '2024', wali: 'Bpk. Sunaji',
+                stats: { pelanggaran: 3, prestasi: 0, alfa: 12, poin: 55, kehadiran: 75 },
+                pelanggaran: [
+                    { tgl: '28/04/2026', desc: 'Bermain PS di luar area pondok', poin: -25 },
+                    { tgl: '15/04/2026', desc: 'Tidak ikut jamaah sholat Ashar', poin: -10 },
+                    { tgl: '01/04/2026', desc: 'Tidak piket kebersihan kamar', poin: -10 }
+                ],
+                prestasi: []
+            },
+            {
+                nis: '21010367', nama: 'ACHMAD HILAL ABIYU JAMAIL', kamar: '2 SMA A', kepala_kamar: 'Ust. Ihram Zulfasah E', kelas: '11 / SMA', tahun: '2021', wali: 'Bpk. Achmad Fatoni',
+                stats: { pelanggaran: 2, prestasi: 0, alfa: 6, poin: 80, kehadiran: 85 },
+                pelanggaran: [
+                    { tgl: '10/05/2026', desc: 'Ketahuan membawa HP ke dalam asrama', poin: -15 },
+                    { tgl: '22/03/2026', desc: 'Terlambat kembali dari izin pulang', poin: -5 }
+                ],
+                prestasi: []
+            },
+            {
+                nis: '20010479', nama: 'ACHMAD HAFIDZ FADLI', kamar: '3 SMA A', kepala_kamar: 'Ust. M. Nuskhi J', kelas: '12 / SMA', tahun: '2020', wali: 'Bpk. Sumarji',
+                stats: { pelanggaran: 0, prestasi: 3, alfa: 0, poin: 160, kehadiran: 100 },
+                pelanggaran: [],
+                prestasi: [
+                    { tgl: '20/04/2026', desc: 'Khatam Hafalan Nadhom Alfiyah Ibnu Malik', poin: +30 },
+                    { tgl: '15/02/2026', desc: 'Juara 1 Lomba Baca Kitab Kuning Tingkat SMA', poin: +20 },
+                    { tgl: '10/01/2026', desc: 'Pengurus Teladan Sektor Keamanan', poin: +10 }
+                ]
+            },
+            {
+                nis: '20010042', nama: 'ACHMAD NIZAR MAFTUH B', kamar: '3 SMA A', kepala_kamar: 'Ust. M. Nuskhi J', kelas: '12 / SMA', tahun: '2020', wali: 'Bpk. Rofikul Hasan',
+                stats: { pelanggaran: 1, prestasi: 1, alfa: 4, poin: 95, kehadiran: 92 },
+                pelanggaran: [
+                    { tgl: '05/01/2026', desc: 'Tidur saat pengajian kitab pagi', poin: -10 }
+                ],
+                prestasi: [
+                    { tgl: '17/04/2026', desc: 'Panitia Inti Peringatan Nuzulul Qur\'an', poin: +5 }
+                ]
+            },
+            {
+                nis: '25010074', nama: 'ABTHAL MAFTUH FATHONI', kamar: '1 SMP A', kelas: '7 / SMP', tahun: '2025', wali: 'Bpk. Gunadi',
+                stats: { pelanggaran: 4, prestasi: 0, alfa: 15, poin: 60, kehadiran: 70 },
+                pelanggaran: [
+                    { tgl: '25/04/2026', desc: 'Alfa berjamaah Subuh berturut-turut', poin: -10 },
+                    { tgl: '10/04/2026', desc: 'Keluar area pondok tanpa izin', poin: -20 },
+                    { tgl: '05/03/2026', desc: 'Tidak mengikuti Madin malam', poin: -5 },
+                    { tgl: '12/02/2026', desc: 'Terlambat kembali dari izin pulang', poin: -5 }
+                ],
+                prestasi: []
+            },
+            {
+                nis: '25010024', nama: 'AHMAD BINAR YUDHISTIRA', kamar: '1 SMP B', kelas: '7 / SMP', tahun: '2025', wali: 'Bpk. Mohamad Iksan',
+                stats: { pelanggaran: 2, prestasi: 1, alfa: 8, poin: 85, kehadiran: 85 },
+                pelanggaran: [
+                    { tgl: '20/04/2026', desc: 'Terlambat jamaah Subuh', poin: -5 },
+                    { tgl: '15/03/2026', desc: 'Menggunakan fasilitas asrama di luar ketentuan', poin: -10 }
+                ],
+                prestasi: [
+                    { tgl: '28/02/2026', desc: 'Juara 3 Lomba Muhafadzoh Imrithi', poin: +15 }
+                ]
+            },
+            {
+                nis: '25010241', nama: 'MUHAMMAD RAFA ADITYA PURWANTO', kamar: '1 SMP C', kelas: '7 / SMP', tahun: '2025', wali: 'Bpk. Agus Purwanto',
+                stats: { pelanggaran: 0, prestasi: 3, alfa: 2, poin: 130, kehadiran: 98 },
+                pelanggaran: [],
+                prestasi: [
+                    { tgl: '15/04/2026', desc: 'Setoran Hafalan Juz Amma Lulus Mumtaz', poin: +20 },
+                    { tgl: '01/03/2026', desc: 'Juara 1 Pidato Bahasa Arab', poin: +10 },
+                    { tgl: '10/01/2026', desc: 'Santri Teladan Kamar Bulan Januari', poin: +10 }
+                ]
+            }
+        ];
+
+        function toggleCustomDate() {
+            const val = document.getElementById('rentangTanggal').value;
+            const container = document.getElementById('customDateContainer');
+            if (val === 'custom') {
+                container.classList.remove('hidden');
+                container.classList.add('flex');
+            } else {
+                container.classList.add('hidden');
+                container.classList.remove('flex');
+            }
+        }
+
+        function searchTrackRecord() {
+            const query = document.getElementById('searchSantri').value.toLowerCase();
+            const resultsDiv = document.getElementById('searchResults');
+            
+            if (query.length < 2) {
+                resultsDiv.classList.add('hidden');
+                return;
+            }
+
+            const results = santriDB.filter(s => s.nama.toLowerCase().includes(query) || s.nis.includes(query));
+            
+            resultsDiv.innerHTML = '';
+            if (results.length > 0) {
+                results.forEach(s => {
+                    resultsDiv.innerHTML += `
+                        <div class="p-3 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-0 flex items-center gap-3" onclick="showProfile('${s.nis}')">
+                            <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600"><i class="fa fa-user text-xs"></i></div>
+                            <div>
+                                <p class="font-bold text-[#1B2559] text-xs md:text-sm">${s.nama}</p>
+                                <p class="text-[10px] text-[#A3AED0]">${s.kamar} • NIS: ${s.nis}</p>
+                            </div>
+                        </div>
+                    `;
+                });
+                resultsDiv.classList.remove('hidden');
+            } else {
+                resultsDiv.innerHTML = '<div class="p-4 text-center text-xs text-[#A3AED0]">Santri tidak ditemukan</div>';
+                resultsDiv.classList.remove('hidden');
+            }
+        }
+
+        function showProfile(nis) {
+            document.getElementById('searchResults').classList.add('hidden');
+            document.getElementById('searchSantri').value = '';
+            
+            const santri = santriDB.find(s => s.nis === nis);
+            if (!santri) return;
+
+            document.getElementById('emptyState').classList.add('hidden');
+            document.getElementById('profileSection').classList.remove('hidden');
+
+            document.getElementById('profNama').textContent = santri.nama;
+            document.getElementById('profNis').textContent = `NIS: ${santri.nis}`;
+            document.getElementById('profKamar').textContent = santri.kamar;
+            document.getElementById('profKelas').textContent = santri.kelas;
+            document.getElementById('profWali').textContent = santri.wali;
+            document.getElementById('profKepalaKamar').textContent = santri.kepala_kamar || '-';
+
+            document.getElementById('statPelanggaran').textContent = santri.stats.pelanggaran;
+            document.getElementById('statPrestasi').textContent = santri.stats.prestasi;
+            document.getElementById('statAlfa').textContent = santri.stats.alfa;
+            document.getElementById('statPoin').textContent = santri.stats.poin;
+            
+            const bar = document.getElementById('barKehadiran');
+            bar.style.width = `${santri.stats.kehadiran}%`;
+            bar.className = `h-2 rounded-full ${santri.stats.kehadiran >= 90 ? 'bg-green-500' : santri.stats.kehadiran >= 75 ? 'bg-yellow-500' : 'bg-red-500'}`;
+            
+            document.getElementById('txtKehadiran').textContent = `${santri.stats.kehadiran}%`;
+            document.getElementById('txtKehadiran').className = `text-[10px] md:text-xs font-bold ${santri.stats.kehadiran >= 90 ? 'text-green-500' : santri.stats.kehadiran >= 75 ? 'text-yellow-500' : 'text-red-500'}`;
+
+            // List Pelanggaran
+            const listP = document.getElementById('listPelanggaran');
+            listP.innerHTML = '';
+            if (santri.pelanggaran.length > 0) {
+                santri.pelanggaran.forEach(p => {
+                    listP.innerHTML += `
+                        <div class="flex items-start gap-3 p-2.5 bg-white rounded-xl border border-red-100 shadow-sm">
+                            <div class="w-6 h-6 rounded-full bg-red-100 text-red-600 flex items-center justify-center shrink-0 mt-0.5"><i class="fa fa-times text-[10px]"></i></div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-xs md:text-sm font-bold text-[#1B2559] truncate w-full" style="white-space: normal;">${p.desc}</p>
+                                <div class="flex justify-between items-end mt-1">
+                                    <span class="text-[9px] md:text-[10px] text-[#A3AED0]">${p.tgl}</span>
+                                    <span class="text-[10px] md:text-xs font-bold text-red-600">${p.poin} Pts</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+            } else {
+                listP.innerHTML = '<div class="p-3 text-center text-xs text-[#A3AED0] bg-white rounded-xl border border-gray-100">Tidak ada riwayat pelanggaran.</div>';
+            }
+
+            // List Prestasi
+            const listPr = document.getElementById('listPrestasi');
+            listPr.innerHTML = '';
+            if (santri.prestasi.length > 0) {
+                santri.prestasi.forEach(p => {
+                    listPr.innerHTML += `
+                        <div class="flex items-start gap-3 p-2.5 bg-white rounded-xl border border-green-100 shadow-sm">
+                            <div class="w-6 h-6 rounded-full bg-green-100 text-green-600 flex items-center justify-center shrink-0 mt-0.5"><i class="fa fa-trophy text-[10px]"></i></div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-xs md:text-sm font-bold text-[#1B2559] truncate w-full" style="white-space: normal;">${p.desc}</p>
+                                <div class="flex justify-between items-end mt-1">
+                                    <span class="text-[9px] md:text-[10px] text-[#A3AED0]">${p.tgl}</span>
+                                    <span class="text-[10px] md:text-xs font-bold text-green-600">+${p.poin} Pts</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+            } else {
+                listPr.innerHTML = '<div class="p-3 text-center text-xs text-[#A3AED0] bg-white rounded-xl border border-gray-100">Belum ada riwayat prestasi.</div>';
+            }
+        }
+
+        // Hide dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!document.getElementById('searchSantri').contains(e.target)) {
+                document.getElementById('searchResults').classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>

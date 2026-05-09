@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+    <title>PENGASUH - Demo SuperApps An-Nur II</title>
+    <meta name="description" content="Demo dashboard pengasuh pondok pesantren An-Nur II">
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['DM Sans', 'sans-serif'] },
+                    colors: {
+                        primary: '#4318FF',
+                        secondary: '#A3AED0',
+                        dark: '#111C44',
+                        light: '#F4F7FE'
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer base { 
+            body { @apply bg-[#F4F7FE] font-sans text-[#2B3674] antialiased pb-20 md:pb-0; } 
+        }
+        @layer components {
+            .card { @apply bg-white rounded-[20px] border-none shadow-[0_20px_27px_0_rgba(0,0,0,0.05)] p-4 md:p-6 !important; }
+            .btn { @apply rounded-xl px-5 py-2.5 font-medium tracking-wide transition-all duration-200 shadow-none border-none hover:-translate-y-0.5 !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; }
+            .sidebar-menu li { @apply mb-1; }
+            .sidebar-menu li a { @apply flex items-center px-6 py-3 text-[#A3AED0] hover:text-white font-medium transition-colors duration-200 rounded-r-full mr-4; text-decoration: none !important; }
+            .sidebar-menu li a:hover { @apply bg-white/10; }
+            .sidebar-menu li a i { @apply mr-4 text-xl w-6 text-center; }
+            .sidebar-menu li.active > a { @apply text-white bg-[#4318FF] shadow-md; }
+            
+            /* Bottom Nav Mobile */
+            .bottom-nav-item { @apply flex flex-col items-center justify-center w-full h-full text-[#A3AED0] transition-colors; }
+            .bottom-nav-item.active { @apply text-[#4318FF] font-bold; }
+            .bottom-nav-item i { @apply text-xl mb-1; }
+            .bottom-nav-item span { @apply text-[10px]; }
+
+            /* Horizontal Scroll Hiding Scrollbar */
+            .hide-scrollbar::-webkit-scrollbar { display: none; }
+            .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+            
+            /* Tabs */
+            .tab-btn { @apply px-4 py-2 rounded-xl text-sm font-bold transition-all bg-white text-[#2B3674] border border-gray-200 whitespace-nowrap; }
+            .tab-btn.active { @apply bg-[#4318FF] text-white border-[#4318FF]; }
+        }
+    </style>
+</head>
+
+<body class="font-sans bg-[#F4F7FE] text-[#2B3674] h-screen overflow-hidden flex flex-col md:flex-row">
+
+    <!-- Desktop Sidebar (Hidden on Mobile) -->
+    <aside class="hidden md:flex w-72 bg-[#111C44] flex-col z-50 shadow-xl fixed inset-y-0 left-0">
+        <div class="h-20 flex items-center justify-between px-8 border-b border-white/5">
+            <span class="text-white text-2xl font-bold tracking-wide">SuperApps<br>An-Nur II</span>
+        </div>
+        <nav class="flex-1 overflow-y-auto py-4 pl-4">
+            <ul class="sidebar-menu list-none p-0 m-0">
+                <li class="active"><a href="index.html"><i class="fa fa-home"></i><span>Dashboard</span></a></li>
+                <li><a href="absensi.html"><i class="fa fa-clipboard-list"></i><span>Rekap Absensi</span></a></li>
+                <li><a href="pembayaran.html"><i class="fa fa-money-bill-wave"></i><span>Pembayaran</span></a></li>
+                <li><a href="perizinan.html"><i class="fa fa-hand-paper"></i><span>Perizinan</span></a></li>
+                <li><a href="track-record.html"><i class="fa fa-user-clock"></i><span>Track Record Santri</span></a></li>
+            </ul>
+            <div class="mt-6 mx-4 px-4 py-3 bg-amber-500/20 rounded-xl border border-amber-400/30">
+                <p class="text-amber-300 text-xs font-bold flex items-center gap-2"><i class="fa fa-flask"></i> MODE DEMO</p>
+                <p class="text-amber-200/70 text-xs mt-1">Data dummy untuk demonstrasi.</p>
+            </div>
+            <div class="mt-8 px-8 mb-8">
+                <span class="flex items-center text-[#A3AED0] font-medium"><i class="fa fa-user mr-3"></i><span>Pengasuh Demo</span></span>
+            </div>
+        </nav>
+    </aside>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 h-16 z-50 flex justify-around items-center px-2 pb-safe">
+        <a href="index.html" class="bottom-nav-item active">
+            <i class="fa fa-home"></i>
+            <span>Utama</span>
+        </a>
+        <a href="absensi.html" class="bottom-nav-item">
+            <i class="fa fa-clipboard-list"></i>
+            <span>Absen</span>
+        </a>
+        <a href="pembayaran.html" class="bottom-nav-item">
+            <i class="fa fa-money-bill-wave"></i>
+            <span>Bayar</span>
+        </a>
+        <a href="perizinan.html" class="bottom-nav-item">
+            <i class="fa fa-hand-paper"></i>
+            <span>Izin</span>
+        </a>
+        <a href="track-record.html" class="bottom-nav-item">
+            <i class="fa fa-user-clock"></i>
+            <span>Profil</span>
+        </a>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col h-screen overflow-hidden md:ml-72 relative">
+        <!-- Top Navbar -->
+        <header class="h-16 md:h-20 bg-white/50 backdrop-blur-xl flex items-center justify-between px-4 md:px-8 sticky top-0 z-40 border-b border-gray-100/50">
+            <div class="flex items-center">
+                <!-- Mobile Logo -->
+                <div class="md:hidden flex items-center gap-2 mr-3">
+                    <div class="w-8 h-8 bg-[#111C44] rounded-lg flex items-center justify-center text-white font-bold text-xs">AN</div>
+                </div>
+                <div>
+                    <p class="text-[10px] md:text-sm text-[#A3AED0] font-medium">Selamat Datang</p>
+                    <h1 class="text-sm md:text-xl font-bold text-[#1B2559]">Pengasuh</h1>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-[#4318FF]/10 flex items-center justify-center text-[#4318FF]">
+                    <i class="fa fa-user text-sm md:text-base"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- Content Scroll Area -->
+        <div class="flex-1 overflow-y-auto p-4 md:p-8 hide-scrollbar">
+            
+            <!-- Filter Tanggal Global -->
+            <div class="card mb-4 p-3 md:p-4">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 rounded-lg bg-[#4318FF]/10 flex items-center justify-center"><i class="fa fa-calendar-alt text-[#4318FF] text-sm"></i></div>
+                        <h3 class="font-bold text-sm text-[#1B2559]">Periode Rekapan</h3>
+                    </div>
+                    <div class="flex flex-col md:flex-row gap-2 items-center">
+                        <select id="rentangTanggal" onchange="toggleCustomDate()" class="w-full md:w-auto bg-[#F4F7FE] border-none text-gray-600 text-sm rounded-xl h-10 px-4 focus:ring-2 focus:ring-[#4318FF] focus:outline-none">
+                            <option value="hari_ini">Hari Ini</option>
+                            <option value="minggu_ini">Minggu Ini</option>
+                            <option value="bulan_ini" selected>Bulan Ini</option>
+                            <option value="tahun_ini">Tahun Ini</option>
+                            <option value="custom">Custom Tanggal</option>
+                        </select>
+                        <div id="customDateContainer" class="hidden items-center gap-2 w-full md:w-auto">
+                            <input type="date" id="startDate" class="flex-1 md:w-auto bg-[#F4F7FE] border-none text-gray-600 text-sm rounded-xl h-10 px-3 focus:ring-2 focus:ring-[#4318FF] focus:outline-none">
+                            <span class="text-gray-400 text-xs">-</span>
+                            <input type="date" id="endDate" class="flex-1 md:w-auto bg-[#F4F7FE] border-none text-gray-600 text-sm rounded-xl h-10 px-3 focus:ring-2 focus:ring-[#4318FF] focus:outline-none">
+                        </div>
+                        <button onclick="terapkanFilter(event)" class="w-full md:w-auto bg-[#4318FF] text-white text-sm rounded-xl px-4 py-2 font-medium hover:bg-[#3311CC] transition-colors whitespace-nowrap">
+                            Terapkan
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Horizontal Scroll Summary Cards -->
+            <div class="flex overflow-x-auto snap-x hide-scrollbar gap-4 pb-2 mb-4 -mx-4 px-4 md:mx-0 md:px-0">
+                <!-- Card 1 -->
+                <div class="card snap-center min-w-[140px] flex-1">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="w-8 h-8 rounded-lg bg-[#4318FF]/10 flex items-center justify-center"><i class="fa fa-users text-[#4318FF] text-sm"></i></div>
+                        <span class="text-[10px] text-green-500 font-bold"><i class="fa fa-arrow-up"></i> 2%</span>
+                    </div>
+                    <p class="text-xl font-bold text-[#1B2559]">248</p>
+                    <p class="text-[10px] text-[#A3AED0] mt-0.5">Total Santri</p>
+                </div>
+                <!-- Card 2 -->
+                <div class="card snap-center min-w-[140px] flex-1">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="w-8 h-8 rounded-lg bg-green-100 flex items-center justify-center"><i class="fa fa-check-circle text-green-500 text-sm"></i></div>
+                        <span class="text-[10px] text-green-500 font-bold"><i class="fa fa-arrow-up"></i> 1.5%</span>
+                    </div>
+                    <p class="text-xl font-bold text-[#1B2559]">231</p>
+                    <p class="text-[10px] text-[#A3AED0] mt-0.5">Hadir Hari Ini</p>
+                </div>
+                <!-- Card 3 -->
+                <div class="card snap-center min-w-[140px] flex-1">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="w-8 h-8 rounded-lg bg-orange-100 flex items-center justify-center"><i class="fa fa-hand-paper text-orange-500 text-sm"></i></div>
+                        <span class="text-[10px] text-red-400 font-bold"><i class="fa fa-arrow-up"></i> 3</span>
+                    </div>
+                    <p class="text-xl font-bold text-[#1B2559]">12</p>
+                    <p class="text-[10px] text-[#A3AED0] mt-0.5">Izin Aktif</p>
+                </div>
+                <!-- Card 4 -->
+                <div class="card snap-center min-w-[140px] flex-1">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="w-8 h-8 rounded-lg bg-red-100 flex items-center justify-center"><i class="fa fa-times-circle text-red-500 text-sm"></i></div>
+                        <span class="text-[10px] text-red-400 font-bold"><i class="fa fa-arrow-up"></i> 2</span>
+                    </div>
+                    <p class="text-xl font-bold text-[#1B2559]">5</p>
+                    <p class="text-[10px] text-[#A3AED0] mt-0.5">Alfa Hari Ini</p>
+                </div>
+            </div>
+
+            <!-- Tabs Section -->
+            <div class="flex overflow-x-auto hide-scrollbar gap-2 mb-4 -mx-4 px-4 md:mx-0 md:px-0">
+                <button onclick="switchTab('absensi')" id="btn-absensi" class="tab-btn active">Absensi & Kritis</button>
+                <button onclick="switchTab('keuangan')" id="btn-keuangan" class="tab-btn">Keuangan</button>
+                <button onclick="switchTab('perizinan')" id="btn-perizinan" class="tab-btn">Perizinan</button>
+                <button onclick="switchTab('kesehatan')" id="btn-kesehatan" class="tab-btn">Kesehatan</button>
+                <button onclick="switchTab('infrastruktur')" id="btn-infrastruktur" class="tab-btn">Infrastruktur</button>
+                <button onclick="switchTab('logistik')" id="btn-logistik" class="tab-btn">Logistik</button>
+            </div>
+
+            <!-- TAB CONTENT: ABSENSI -->
+            <div id="tab-absensi" class="space-y-4">
+                <!-- Peringatan Kritis (Exception Reporting) -->
+                <div class="card bg-red-50/50 border border-red-100">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="font-bold text-sm text-red-600 flex items-center gap-2"><i class="fa fa-exclamation-triangle"></i> Perhatian Khusus</h3>
+                        <a href="track-record.html" class="text-[10px] text-red-500 font-bold hover:underline">Lihat Semua Profil</a>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-3 p-2 bg-white rounded-xl border border-red-100 shadow-sm">
+                            <div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center shrink-0"><i class="fa fa-user-times text-red-500 text-xs"></i></div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-2 mb-0.5">
+                                    <p class="text-sm font-bold text-[#1B2559] truncate">ABTHAL MAFTUH FATHONI</p>
+                                    <span class="text-[9px] bg-gray-100 text-[#A3AED0] px-1.5 py-0.5 rounded font-bold border border-gray-200 whitespace-nowrap">7 / SMP</span>
+                                </div>
+                                <p class="text-[10px] text-[#A3AED0] mb-0.5"><i class="fa fa-user-tie text-[9px] mr-1"></i>Kamar: 1 SMP A &bull; Wali: Bpk. Gunadi</p>
+                                <p class="text-[10px] text-red-500 font-medium">Alfa 15x &bull; Keluar area tanpa izin</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3 p-2 bg-white rounded-xl border border-yellow-100 shadow-sm">
+                            <div class="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center shrink-0"><i class="fa fa-clock text-yellow-500 text-xs"></i></div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-2 mb-0.5">
+                                    <p class="text-sm font-bold text-[#1B2559] truncate">AJI MAHA SYEFA</p>
+                                    <span class="text-[9px] bg-gray-100 text-[#A3AED0] px-1.5 py-0.5 rounded font-bold border border-gray-200 whitespace-nowrap">8 / SMP</span>
+                                </div>
+                                <p class="text-[10px] text-[#A3AED0] mb-0.5"><i class="fa fa-user-tie text-[9px] mr-1"></i>Kamar: 2 SMP A &bull; Wali: Bpk. Sunaji</p>
+                                <p class="text-[10px] text-yellow-600 font-medium">3 Pelanggaran &bull; Poin: 55</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rekap Absensi Hari Ini Cepat -->
+                <div class="card">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="font-bold text-sm text-[#1B2559]">Rekap Absensi Hari Ini</h3>
+                        <a href="absensi.html" class="text-[10px] text-[#4318FF] font-bold hover:underline">Detail</a>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center bg-gray-50 p-2 rounded-lg">
+                            <span class="text-xs font-medium text-[#2B3674]"><i class="fa fa-moon text-blue-400 w-4 text-center mr-1"></i> Subuh</span>
+                            <div class="flex gap-1 text-[10px] font-bold">
+                                <span class="bg-green-100 text-green-600 px-1.5 py-0.5 rounded">H:221</span>
+                                <span class="bg-red-100 text-red-600 px-1.5 py-0.5 rounded">A:10</span>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center bg-gray-50 p-2 rounded-lg">
+                            <span class="text-xs font-medium text-[#2B3674]"><i class="fa fa-sun text-yellow-500 w-4 text-center mr-1"></i> Dhuhur</span>
+                            <div class="flex gap-1 text-[10px] font-bold">
+                                <span class="bg-green-100 text-green-600 px-1.5 py-0.5 rounded">H:230</span>
+                                <span class="bg-red-100 text-red-600 px-1.5 py-0.5 rounded">A:3</span>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center bg-gray-50 p-2 rounded-lg">
+                            <span class="text-xs font-medium text-[#2B3674]"><i class="fa fa-star-and-crescent text-indigo-500 w-4 text-center mr-1"></i> Maghrib</span>
+                            <div class="flex gap-1 text-[10px] font-bold">
+                                <span class="bg-green-100 text-green-600 px-1.5 py-0.5 rounded">H:235</span>
+                                <span class="bg-red-100 text-red-600 px-1.5 py-0.5 rounded">A:1</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB CONTENT: KEUANGAN -->
+            <div id="tab-keuangan" class="space-y-4 hidden">
+                <!-- Tunggakan Kritis -->
+                <div class="card bg-orange-50/50 border border-orange-100">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="font-bold text-sm text-orange-600 flex items-center gap-2"><i class="fa fa-money-bill-wave"></i> Top Tunggakan SPP</h3>
+                        <a href="pembayaran.html" class="text-[10px] text-orange-500 font-bold hover:underline">Lihat Semua</a>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between p-2 bg-white rounded-xl shadow-sm border border-orange-100">
+                            <div>
+                                <div class="flex items-center gap-2 mb-0.5">
+                                    <p class="text-sm font-bold text-[#1B2559]">AJI MAHA SYEFA</p>
+                                    <span class="text-[9px] bg-gray-100 text-[#A3AED0] px-1.5 py-0.5 rounded font-bold border border-gray-200 whitespace-nowrap">8 / SMP</span>
+                                </div>
+                                <p class="text-[10px] text-[#A3AED0] mb-0.5"><i class="fa fa-user-tie text-[9px] mr-1"></i>Wali: Bpk. Sunaji</p>
+                                <p class="text-[10px] text-[#A3AED0]"><i class="fa fa-door-closed w-3 text-center"></i>Kamar 2 SMP A</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-xs font-bold text-red-500">4 Bulan</p>
+                                <p class="text-[10px] text-[#A3AED0]">Rp 1.400.000</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between p-2 bg-white rounded-xl shadow-sm border border-orange-100">
+                            <div>
+                                <div class="flex items-center gap-2 mb-0.5">
+                                    <p class="text-sm font-bold text-[#1B2559]">ACHMAD HILAL ABIYU JAMAIL</p>
+                                    <span class="text-[9px] bg-gray-100 text-[#A3AED0] px-1.5 py-0.5 rounded font-bold border border-gray-200 whitespace-nowrap">11 / SMA</span>
+                                </div>
+                                <p class="text-[10px] text-[#A3AED0] mb-0.5"><i class="fa fa-user-tie text-[9px] mr-1"></i>Wali: Bpk. Achmad Fatoni</p>
+                                <p class="text-[10px] text-[#A3AED0]"><i class="fa fa-door-closed w-3 text-center"></i>Kamar 2 SMA A</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-xs font-bold text-orange-500">3 Bulan</p>
+                                <p class="text-[10px] text-[#A3AED0]">Rp 1.050.000</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 class="font-bold text-sm text-[#1B2559] mb-3">Status April 2026</h3>
+                    <div class="flex gap-2">
+                        <div class="flex-1 bg-green-50 rounded-lg p-2 text-center border border-green-100">
+                            <p class="text-lg font-bold text-green-600">186</p>
+                            <p class="text-[9px] text-green-600/70 font-bold uppercase tracking-wider">Lunas</p>
+                        </div>
+                        <div class="flex-1 bg-yellow-50 rounded-lg p-2 text-center border border-yellow-100">
+                            <p class="text-lg font-bold text-yellow-600">42</p>
+                            <p class="text-[9px] text-yellow-600/70 font-bold uppercase tracking-wider">Cicil</p>
+                        </div>
+                        <div class="flex-1 bg-red-50 rounded-lg p-2 text-center border border-red-100">
+                            <p class="text-lg font-bold text-red-600">20</p>
+                            <p class="text-[9px] text-red-600/70 font-bold uppercase tracking-wider">Nunggak</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB CONTENT: PERIZINAN -->
+            <div id="tab-perizinan" class="space-y-4 hidden">
+                <div class="card bg-blue-50/50 border border-blue-100">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="font-bold text-sm text-blue-600 flex items-center gap-2"><i class="fa fa-hand-paper"></i> Menunggu & Terlambat</h3>
+                        <a href="perizinan.html" class="text-[10px] text-blue-500 font-bold hover:underline">Lihat Semua</a>
+                    </div>
+                    <div class="space-y-2">
+                        <!-- Terlambat (Overdue) -->
+                        <div class="p-2 bg-white rounded-xl shadow-sm border-l-2 border-red-500">
+                            <div class="flex justify-between items-start mb-1">
+                                <div class="flex items-center gap-2">
+                                    <p class="text-sm font-bold text-[#1B2559]">ACHMAD HILAL ABIYU JAMAIL</p>
+                                    <span class="text-[9px] bg-gray-100 text-[#A3AED0] px-1.5 py-0.5 rounded font-bold border border-gray-200 whitespace-nowrap">11 / SMA</span>
+                                </div>
+                                <span class="bg-red-100 text-red-600 text-[8px] font-bold px-1.5 py-0.5 rounded uppercase">Overdue</span>
+                            </div>
+                            <p class="text-[10px] text-[#A3AED0] mb-0.5"><i class="fa fa-user-tie w-3 text-center"></i>Wali: Bpk. Achmad Fatoni &bull; 2 SMA A</p>
+                            <p class="text-[10px] text-[#A3AED0] mb-1"><i class="fa fa-suitcase-rolling w-3 text-center"></i> Pulang - Sakit</p>
+                            <p class="text-[10px] font-bold text-red-500"><i class="fa fa-clock w-3 text-center"></i> Seharusnya kembali 05/05</p>
+                        </div>
+                        <!-- Menunggu Persetujuan -->
+                        <div class="p-2 bg-white rounded-xl shadow-sm border-l-2 border-yellow-500">
+                            <div class="flex justify-between items-start mb-1">
+                                <div class="flex items-center gap-2">
+                                    <p class="text-sm font-bold text-[#1B2559]">ACHMAD NIZAR MAFTUH B</p>
+                                    <span class="text-[9px] bg-gray-100 text-[#A3AED0] px-1.5 py-0.5 rounded font-bold border border-gray-200 whitespace-nowrap">12 / SMA</span>
+                                </div>
+                                <span class="bg-yellow-100 text-yellow-600 text-[8px] font-bold px-1.5 py-0.5 rounded uppercase">Menunggu</span>
+                            </div>
+                            <p class="text-[10px] text-[#A3AED0] mb-0.5"><i class="fa fa-user-tie w-3 text-center"></i>Wali: Bpk. Rofikul Hasan &bull; 3 SMA A</p>
+                            <p class="text-[10px] text-[#A3AED0] mb-1"><i class="fa fa-suitcase-rolling w-3 text-center"></i> Pulang - Acara Keluarga</p>
+                            <p class="text-[10px] text-[#2B3674]"><i class="fa fa-calendar-alt w-3 text-center"></i> 07/05 s.d 10/05</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB CONTENT: KESEHATAN -->
+            <div id="tab-kesehatan" class="space-y-4 hidden">
+                <!-- Statistik Poskestren Hari Ini -->
+                <div class="card bg-emerald-50/50 border border-emerald-100">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="font-bold text-sm text-emerald-700 flex items-center gap-2"><i class="fa fa-heartbeat"></i> Poskestren Hari Ini</h3>
+                        <span class="text-[9px] bg-emerald-100 text-emerald-600 px-2 py-0.5 rounded-full font-bold">7 Mei 2026</span>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2 mb-3">
+                        <div class="bg-white rounded-xl p-3 text-center border border-emerald-100 shadow-sm">
+                            <p class="text-2xl font-bold text-emerald-600">4</p>
+                            <p class="text-[9px] text-emerald-600/70 font-bold uppercase tracking-wider mt-1">Dirawat</p>
+                        </div>
+                        <div class="bg-white rounded-xl p-3 text-center border border-blue-100 shadow-sm">
+                            <p class="text-2xl font-bold text-blue-600">2</p>
+                            <p class="text-[9px] text-blue-600/70 font-bold uppercase tracking-wider mt-1">Rawat Jalan</p>
+                        </div>
+                        <div class="bg-white rounded-xl p-3 text-center border border-amber-100 shadow-sm">
+                            <p class="text-2xl font-bold text-amber-600">1</p>
+                            <p class="text-[9px] text-amber-600/70 font-bold uppercase tracking-wider mt-1">Dirujuk RS</p>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-3 p-2 bg-white rounded-xl border border-emerald-100 shadow-sm">
+                            <div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center shrink-0"><i class="fa fa-thermometer-half text-red-500 text-xs"></i></div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-2 mb-0.5">
+                                    <p class="text-sm font-bold text-[#1B2559] truncate">Ahmad Fauzi</p>
+                                    <span class="text-[9px] bg-gray-100 text-[#A3AED0] px-1.5 py-0.5 rounded font-bold border border-gray-200 whitespace-nowrap">10 / SMP</span>
+                                </div>
+                                <p class="text-[10px] text-red-500 font-medium"><i class="fa fa-notes-medical w-3 text-center"></i> Demam tinggi – Dirawat inap sejak 06/05</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3 p-2 bg-white rounded-xl border border-emerald-100 shadow-sm">
+                            <div class="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center shrink-0"><i class="fa fa-band-aid text-yellow-500 text-xs"></i></div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-2 mb-0.5">
+                                    <p class="text-sm font-bold text-[#1B2559] truncate">Rizki Aditya</p>
+                                    <span class="text-[9px] bg-gray-100 text-[#A3AED0] px-1.5 py-0.5 rounded font-bold border border-gray-200 whitespace-nowrap">11 / SMA</span>
+                                </div>
+                                <p class="text-[10px] text-yellow-600 font-medium"><i class="fa fa-notes-medical w-3 text-center"></i> Keseleo kaki – Rawat jalan</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3 p-2 bg-white rounded-xl border border-emerald-100 shadow-sm">
+                            <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center shrink-0"><i class="fa fa-hospital text-blue-500 text-xs"></i></div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-2 mb-0.5">
+                                    <p class="text-sm font-bold text-[#1B2559] truncate">M. Hafiz Ramadhan</p>
+                                    <span class="text-[9px] bg-gray-100 text-[#A3AED0] px-1.5 py-0.5 rounded font-bold border border-gray-200 whitespace-nowrap">12 / SMA</span>
+                                </div>
+                                <p class="text-[10px] text-blue-500 font-medium"><i class="fa fa-ambulance w-3 text-center"></i> Dirujuk ke RS Medika – Tipes</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB CONTENT: INFRASTRUKTUR -->
+            <div id="tab-infrastruktur" class="space-y-4 hidden">
+                <!-- Progres Pembangunan -->
+                <div class="card bg-violet-50/50 border border-violet-100">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="font-bold text-sm text-violet-700 flex items-center gap-2"><i class="fa fa-hard-hat"></i> Progres Pembangunan</h3>
+                        <span class="text-[9px] bg-violet-100 text-violet-600 px-2 py-0.5 rounded-full font-bold">Kep. Pembangunan</span>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="p-3 bg-white rounded-xl shadow-sm border border-violet-100">
+                            <div class="flex justify-between items-center mb-2">
+                                <p class="text-sm font-bold text-[#1B2559]"><i class="fa fa-building text-violet-500 w-4 text-center mr-1"></i> Asrama Blok C (Lantai 2)</p>
+                                <span class="bg-blue-100 text-blue-600 text-[8px] font-bold px-1.5 py-0.5 rounded uppercase">Berjalan</span>
+                            </div>
+                            <div class="w-full bg-gray-100 rounded-full h-2 mb-1.5">
+                                <div class="bg-violet-500 h-2 rounded-full" style="width: 68%"></div>
+                            </div>
+                            <div class="flex justify-between text-[10px]">
+                                <span class="text-[#A3AED0]">Target: Agustus 2026</span>
+                                <span class="font-bold text-violet-600">68%</span>
+                            </div>
+                        </div>
+                        <div class="p-3 bg-white rounded-xl shadow-sm border border-violet-100">
+                            <div class="flex justify-between items-center mb-2">
+                                <p class="text-sm font-bold text-[#1B2559]"><i class="fa fa-mosque text-violet-500 w-4 text-center mr-1"></i> Renovasi Musholla Timur</p>
+                                <span class="bg-green-100 text-green-600 text-[8px] font-bold px-1.5 py-0.5 rounded uppercase">Selesai</span>
+                            </div>
+                            <div class="w-full bg-gray-100 rounded-full h-2 mb-1.5">
+                                <div class="bg-green-500 h-2 rounded-full" style="width: 100%"></div>
+                            </div>
+                            <div class="flex justify-between text-[10px]">
+                                <span class="text-[#A3AED0]">Selesai: 02 Mei 2026</span>
+                                <span class="font-bold text-green-600">100%</span>
+                            </div>
+                        </div>
+                        <div class="p-3 bg-white rounded-xl shadow-sm border border-violet-100">
+                            <div class="flex justify-between items-center mb-2">
+                                <p class="text-sm font-bold text-[#1B2559]"><i class="fa fa-toilet text-violet-500 w-4 text-center mr-1"></i> MCK Blok A (Perbaikan)</p>
+                                <span class="bg-yellow-100 text-yellow-600 text-[8px] font-bold px-1.5 py-0.5 rounded uppercase">Tertunda</span>
+                            </div>
+                            <div class="w-full bg-gray-100 rounded-full h-2 mb-1.5">
+                                <div class="bg-yellow-400 h-2 rounded-full" style="width: 30%"></div>
+                            </div>
+                            <div class="flex justify-between text-[10px]">
+                                <span class="text-[#A3AED0]">Menunggu material</span>
+                                <span class="font-bold text-yellow-600">30%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Laporan Perairan -->
+                <div class="card bg-cyan-50/50 border border-cyan-100">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="font-bold text-sm text-cyan-700 flex items-center gap-2"><i class="fa fa-tint"></i> Laporan Perairan</h3>
+                        <span class="text-[9px] bg-cyan-100 text-cyan-600 px-2 py-0.5 rounded-full font-bold">Kep. Perairan</span>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-3 p-2.5 bg-white rounded-xl border-l-2 border-red-500 shadow-sm">
+                            <div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center shrink-0"><i class="fa fa-exclamation-circle text-red-500 text-xs"></i></div>
+                            <div class="flex-1">
+                                <p class="text-sm font-bold text-[#1B2559]">Pipa Bocor – Asrama Blok B</p>
+                                <p class="text-[10px] text-red-500 font-medium"><i class="fa fa-clock w-3 text-center"></i> Dilaporkan: 06/05 – Belum ditangani</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3 p-2.5 bg-white rounded-xl border-l-2 border-yellow-500 shadow-sm">
+                            <div class="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center shrink-0"><i class="fa fa-exclamation-triangle text-yellow-500 text-xs"></i></div>
+                            <div class="flex-1">
+                                <p class="text-sm font-bold text-[#1B2559]">Air Keruh – Kamar Mandi Lt.2</p>
+                                <p class="text-[10px] text-yellow-600 font-medium"><i class="fa fa-wrench w-3 text-center"></i> Sedang diperiksa filter</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3 p-2.5 bg-white rounded-xl border-l-2 border-green-500 shadow-sm">
+                            <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center shrink-0"><i class="fa fa-check-circle text-green-500 text-xs"></i></div>
+                            <div class="flex-1">
+                                <p class="text-sm font-bold text-[#1B2559]">Pompa Tandon Utama</p>
+                                <p class="text-[10px] text-green-600 font-medium"><i class="fa fa-check w-3 text-center"></i> Normal – Terisi 85%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB CONTENT: LOGISTIK -->
+            <div id="tab-logistik" class="space-y-4 hidden">
+                <!-- Distribusi Galon -->
+                <div class="card bg-sky-50/50 border border-sky-100">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="font-bold text-sm text-sky-700 flex items-center gap-2"><i class="fa fa-bottle-water"></i> Distribusi Galon Hari Ini</h3>
+                        <span class="text-[9px] bg-sky-100 text-sky-600 px-2 py-0.5 rounded-full font-bold">Distributor</span>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2 mb-3">
+                        <div class="bg-white rounded-xl p-3 text-center border border-sky-100 shadow-sm">
+                            <p class="text-2xl font-bold text-sky-600">45</p>
+                            <p class="text-[9px] text-sky-600/70 font-bold uppercase tracking-wider mt-1">Dikirim</p>
+                        </div>
+                        <div class="bg-white rounded-xl p-3 text-center border border-green-100 shadow-sm">
+                            <p class="text-2xl font-bold text-green-600">38</p>
+                            <p class="text-[9px] text-green-600/70 font-bold uppercase tracking-wider mt-1">Diterima</p>
+                        </div>
+                        <div class="bg-white rounded-xl p-3 text-center border border-amber-100 shadow-sm">
+                            <p class="text-2xl font-bold text-amber-600">7</p>
+                            <p class="text-[9px] text-amber-600/70 font-bold uppercase tracking-wider mt-1">Pending</p>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center bg-white p-2.5 rounded-xl border border-sky-100 shadow-sm">
+                            <div class="flex items-center gap-2">
+                                <div class="w-7 h-7 rounded-lg bg-sky-100 flex items-center justify-center"><i class="fa fa-building text-sky-500 text-[10px]"></i></div>
+                                <div>
+                                    <p class="text-xs font-bold text-[#1B2559]">Asrama Blok A</p>
+                                    <p class="text-[10px] text-[#A3AED0]">15 galon</p>
+                                </div>
+                            </div>
+                            <span class="bg-green-100 text-green-600 text-[8px] font-bold px-1.5 py-0.5 rounded"><i class="fa fa-check"></i> Selesai</span>
+                        </div>
+                        <div class="flex justify-between items-center bg-white p-2.5 rounded-xl border border-sky-100 shadow-sm">
+                            <div class="flex items-center gap-2">
+                                <div class="w-7 h-7 rounded-lg bg-sky-100 flex items-center justify-center"><i class="fa fa-building text-sky-500 text-[10px]"></i></div>
+                                <div>
+                                    <p class="text-xs font-bold text-[#1B2559]">Asrama Blok B</p>
+                                    <p class="text-[10px] text-[#A3AED0]">12 galon</p>
+                                </div>
+                            </div>
+                            <span class="bg-green-100 text-green-600 text-[8px] font-bold px-1.5 py-0.5 rounded"><i class="fa fa-check"></i> Selesai</span>
+                        </div>
+                        <div class="flex justify-between items-center bg-white p-2.5 rounded-xl border border-sky-100 shadow-sm">
+                            <div class="flex items-center gap-2">
+                                <div class="w-7 h-7 rounded-lg bg-amber-100 flex items-center justify-center"><i class="fa fa-building text-amber-500 text-[10px]"></i></div>
+                                <div>
+                                    <p class="text-xs font-bold text-[#1B2559]">Asrama Blok C</p>
+                                    <p class="text-[10px] text-[#A3AED0]">10 galon</p>
+                                </div>
+                            </div>
+                            <span class="bg-amber-100 text-amber-600 text-[8px] font-bold px-1.5 py-0.5 rounded"><i class="fa fa-truck"></i> Dikirim</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Operasional Laundry -->
+                <div class="card bg-pink-50/50 border border-pink-100">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="font-bold text-sm text-pink-700 flex items-center gap-2"><i class="fa fa-shirt"></i> Operasional Laundry</h3>
+                        <span class="text-[9px] bg-pink-100 text-pink-600 px-2 py-0.5 rounded-full font-bold">Mgr. Laundry</span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 mb-3">
+                        <div class="bg-white rounded-xl p-3 text-center border border-blue-100 shadow-sm">
+                            <p class="text-2xl font-bold text-blue-600">32</p>
+                            <p class="text-[9px] text-blue-600/70 font-bold uppercase tracking-wider mt-1">Antrian Cuci</p>
+                        </div>
+                        <div class="bg-white rounded-xl p-3 text-center border border-green-100 shadow-sm">
+                            <p class="text-2xl font-bold text-green-600">18</p>
+                            <p class="text-[9px] text-green-600/70 font-bold uppercase tracking-wider mt-1">Siap Ambil</p>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-3 p-2.5 bg-white rounded-xl shadow-sm border border-pink-100">
+                            <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center shrink-0"><i class="fa fa-circle-check text-green-500 text-xs"></i></div>
+                            <div class="flex-1">
+                                <p class="text-xs font-bold text-[#1B2559]">Mesin Cuci (4 unit)</p>
+                                <p class="text-[10px] text-green-600 font-medium">Semua beroperasi normal</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3 p-2.5 bg-white rounded-xl shadow-sm border border-pink-100">
+                            <div class="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center shrink-0"><i class="fa fa-exclamation-triangle text-yellow-500 text-xs"></i></div>
+                            <div class="flex-1">
+                                <p class="text-xs font-bold text-[#1B2559]">Mesin Pengering #2</p>
+                                <p class="text-[10px] text-yellow-600 font-medium">Perlu perawatan – suara berisik</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3 p-2.5 bg-white rounded-xl shadow-sm border border-pink-100">
+                            <div class="w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center shrink-0"><i class="fa fa-box text-amber-500 text-xs"></i></div>
+                            <div class="flex-1">
+                                <p class="text-xs font-bold text-[#1B2559]">Stok Deterjen</p>
+                                <p class="text-[10px] text-amber-600 font-medium">Sisa 3 hari – segera restock</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Spacer for bottom nav -->
+            <div class="h-6 md:h-0"></div>
+        </div>
+    </main>
+
+    <script>
+        function toggleCustomDate() {
+            const val = document.getElementById('rentangTanggal').value;
+            const container = document.getElementById('customDateContainer');
+            if (val === 'custom') {
+                container.classList.remove('hidden');
+                container.classList.add('flex');
+            } else {
+                container.classList.add('hidden');
+                container.classList.remove('flex');
+            }
+        }
+
+        function terapkanFilter(event) {
+            const btn = event.currentTarget;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Memuat...';
+            
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                document.querySelectorAll('.text-xl.font-bold').forEach(el => {
+                    const current = parseInt(el.innerText);
+                    if(!isNaN(current) && current > 0) {
+                        const variation = Math.floor(Math.random() * (current * 0.2)) * (Math.random() > 0.5 ? 1 : -1);
+                        el.innerText = Math.max(1, current + variation);
+                    }
+                });
+            }, 600);
+        }
+
+        function switchTab(tabName) {
+            const tabs = ['absensi','keuangan','perizinan','kesehatan','infrastruktur','logistik'];
+            tabs.forEach(t => {
+                document.getElementById('tab-' + t).classList.add('hidden');
+                document.getElementById('btn-' + t).classList.remove('active');
+            });
+            document.getElementById('tab-' + tabName).classList.remove('hidden');
+            document.getElementById('btn-' + tabName).classList.add('active');
+        }
+    </script>
+</body>
+</html>
