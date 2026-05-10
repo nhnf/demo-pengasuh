@@ -155,11 +155,7 @@
                                 <span class="text-xs font-bold text-[#1B2559]" id="profKelas">-</span>
                             </div>
                             <div class="flex justify-between items-center bg-gray-50 p-2 rounded-lg">
-                                <span class="text-[10px] text-[#A3AED0]">Wali</span>
-                                <span class="text-xs font-bold text-[#1B2559]" id="profWali">-</span>
-                            </div>
-                            <div class="flex justify-between items-center bg-gray-50 p-2 rounded-lg">
-                                <span class="text-[10px] text-[#A3AED0]">Kepala Kamar</span>
+                                <span class="text-xs text-[#A3AED0]">Kepala Kamar</span>
                                 <span class="text-xs font-bold text-[#1B2559]" id="profKepalaKamar">-</span>
                             </div>
                         </div>
@@ -383,7 +379,6 @@
             document.getElementById('profNis').textContent = `NIS: ${santri.nis}`;
             document.getElementById('profKamar').textContent = santri.kamar;
             document.getElementById('profKelas').textContent = santri.kelas;
-            document.getElementById('profWali').textContent = santri.wali;
             document.getElementById('profKepalaKamar').textContent = santri.kepala_kamar || '-';
 
             document.getElementById('statPelanggaran').textContent = santri.stats.pelanggaran;
